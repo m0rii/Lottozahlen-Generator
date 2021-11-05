@@ -45,9 +45,14 @@ public class Game implements Generator {
     @Override
     public List<Integer> randomTipp() {
         List<Integer> tipps = new ArrayList<>();
-        for (int i = 0; i < this.getTippZahlen(); i++) {
-            tipps.add((int) (Math.random() * this.getRangeTippZahlen() + 1));
-        }
+
+        do {
+            int tmp = (int) (Math.random() * this.getRangeTippZahlen() + 1);
+            if (!tipps.contains(tmp)) {
+                tipps.add(tmp);
+            }
+        } while (tipps.size() < this.getTippZahlen());
+
         Collections.sort(tipps);
         return tipps;
     }
@@ -55,9 +60,13 @@ public class Game implements Generator {
     @Override
     public ArrayList<Integer> randomSuperZahlTipp() {
         ArrayList<Integer> superZahlTipp = new ArrayList<>();
-        for (int i = 0; i < this.getSuperZahl(); i++) {
-            superZahlTipp.add((int) (Math.random() * this.getRangeSuperZahl() + 0));
-        }
+        do {
+            int tmp = (int) (Math.random() * this.getRangeSuperZahl() + 1);
+            if (!superZahlTipp.contains(tmp)) {
+                superZahlTipp.add(tmp);
+            }
+        } while (superZahlTipp.size() < this.getSuperZahl());
+
         Collections.sort(superZahlTipp);
         return superZahlTipp;
     }
