@@ -6,12 +6,16 @@ public enum LottoType {
 
     private final String name;
 
-    private LottoType(String name) {
+    LottoType(String name) {
         this.name = name;
     }
 
     @Override
     public String toString() {
         return name;
+    }
+
+    public boolean equalValue(String name){
+        return this.name.equals(name);
     }
 }
