@@ -71,7 +71,7 @@ public class ScannerCotroller {
 
 
 
-            return new ArrayList<Integer>();
+            return new ArrayList<>();
         }
 
     }
@@ -119,7 +119,7 @@ public class ScannerCotroller {
     private List<Integer> addNumbers() {
         List<Integer> unluckyList = new ArrayList<>();
         int unlucky;
-        System.out.println("bitte geben sie 6 Unglückszahlen zwischen 1 und " + game.getRangeTippZahlen() );
+        System.out.println("bitte geben sie 6 Unglückszahlen zwischen 1 und " + game.getRangeTippZahlen()  + " ODER" + " um Tippreihe zu bekommen, schreib bitte End" );
 
         do {
 
@@ -134,7 +134,7 @@ public class ScannerCotroller {
 
             } catch (NumberFormatException e) {
                 if (!input.equalsIgnoreCase("end")) { // Wrong input
-                    System.out.println("Wrong input, input another number or end");
+                    System.out.println("bitte geben Sie nur Nummer oder end");
                 }
             }
         } while (!input.equalsIgnoreCase("end") && unluckyList.size() < 6);
