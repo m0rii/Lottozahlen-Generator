@@ -27,8 +27,11 @@ public class UnluckyNumberService {
     public void deleteAllUnluckyNumbers(){
      unluckyNumbersRepository.deleteAll();
     }
-    public int updateUnluckyNumbers(String unluckyNumbers, int Id){
-        return unluckyNumbersRepository.modifyUnluckyNumbers(unluckyNumbers,Id );
+    public void updateUnluckyNumbers(UnluckyNumbers unluckyNumbers){
+     unluckyNumbersRepository.save(unluckyNumbers);
+    }
+    public void deleteLastUnluckyNumbers(Long id){
+        unluckyNumbersRepository.deleteById(id);
     }
 
 }

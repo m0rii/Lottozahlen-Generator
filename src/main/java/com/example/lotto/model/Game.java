@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Game implements Generator {
+public class Game implements tippGenerator {
     private int rangeTippZahlen;
     private int tippZahlen;
     private int superZahl;
@@ -43,12 +43,11 @@ public class Game implements Generator {
     }
 
     @Override
-    public List<Integer> randomTipp() {
+    public List<Integer> randomTipp(List<Integer> unluckyNums) {
         List<Integer> tipps = new ArrayList<>();
-
         do {
             int tmp = (int) (Math.random() * this.getRangeTippZahlen() + 1);
-            if (!tipps.contains(tmp)) {
+            if (!tipps.contains(tmp) && !unluckyNums.contains(tmp)) {
                 tipps.add(tmp);
             }
         } while (tipps.size() < this.getTippZahlen());
