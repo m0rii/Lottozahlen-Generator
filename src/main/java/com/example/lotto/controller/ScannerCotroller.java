@@ -30,7 +30,6 @@ public class ScannerCotroller {
 
 
     public void startGame() {
-        service.deleteAllUnluckyNumbers();
         GameFactory gameFactory = new GameFactory();
         game = gameFactory.getGame(detectGame());
         List<Integer> unluckyList = getUnluckyNumbers();
