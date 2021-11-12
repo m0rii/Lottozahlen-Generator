@@ -15,12 +15,14 @@ public class GameFactory {
                 game.setSuperZahl(1);
                 game.setTippZahlen(6);
                 game.setRangeSuperZahl(10);
+                game.setGameName(lottoType.name());
                 break;
             case EUROJACKPOT:
                 game.setRangeTippZahlen(50);
                 game.setSuperZahl(2);
                 game.setTippZahlen(5);
                 game.setRangeSuperZahl(10);
+                game.setGameName(lottoType.name());
                 break;
         }
         return game;
