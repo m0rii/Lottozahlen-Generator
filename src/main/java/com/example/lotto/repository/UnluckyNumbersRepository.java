@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UnluckyNumbersRepository extends JpaRepository<UnluckyNumbers,Long> {
 
+    UnluckyNumbers findTopByOrderByIdDesc();
 }

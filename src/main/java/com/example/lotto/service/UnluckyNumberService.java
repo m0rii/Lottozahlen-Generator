@@ -21,13 +21,17 @@ public class UnluckyNumberService {
         return unluckyNumbersRepository.findAll();
     }
 
-    public List<UnluckyNumbers> getLastUnluckyNumbers(){
-
-        return unluckyNumbersRepository.findAll();
+    public UnluckyNumbers getLastUnluckyNumbers(){
+       return unluckyNumbersRepository.findTopByOrderByIdDesc();
     }
-    public void deleteUnluckyNumbers(){
-
+    public void deleteAllUnluckyNumbers(){
      unluckyNumbersRepository.deleteAll();
+    }
+    public void updateUnluckyNumbers(UnluckyNumbers unluckyNumbers){
+     unluckyNumbersRepository.save(unluckyNumbers);
+    }
+    public void deleteLastUnluckyNumbers(Long id){
+        unluckyNumbersRepository.deleteById(id);
     }
 
 }
