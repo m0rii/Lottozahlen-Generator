@@ -17,7 +17,7 @@ public class LottoApplication implements CommandLineRunner {
     public static void main(String[] args) {
         LOGGER.info("Starting to run...");
         SpringApplication.run(LottoApplication.class, args).close();
-        System.out.println("CIAO!!!");
+        System.out.println(" ^^ Viel Spaß und Viel Glück ^^ ");
         LOGGER.info("Completed the run...");
     }
 

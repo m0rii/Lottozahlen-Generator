@@ -9,6 +9,8 @@ public class Game implements tippGenerator {
     private int tippZahlen;
     private int superZahl;
     private int rangeSuperZahl;
+    private String gameName;
+
 
     public int getRangeTippZahlen() {
         return rangeTippZahlen;
@@ -41,6 +43,13 @@ public class Game implements tippGenerator {
     public void setTippZahlen(int tippZahlen) {
         this.tippZahlen = tippZahlen;
     }
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
 
     @Override
     public List<Integer> randomTipp(List<Integer> unluckyNums) {
@@ -57,11 +66,11 @@ public class Game implements tippGenerator {
     }
 
     @Override
-    public ArrayList<Integer> randomSuperZahlTipp() {
-        ArrayList<Integer> superZahlTipp = new ArrayList<>();
+    public List<Integer> randomSuperZahlTipp(List<Integer> unluckyNums) {
+        List<Integer> superZahlTipp = new ArrayList<>();
         do {
             int tmp = (int) (Math.random() * this.getRangeSuperZahl() + 1);
-            if (!superZahlTipp.contains(tmp)) {
+            if (!superZahlTipp.contains(tmp) && !unluckyNums.contains(tmp) ){
                 superZahlTipp.add(tmp);
             }
         } while (superZahlTipp.size() < this.getSuperZahl());
