@@ -31,6 +31,7 @@ public class UnluckyNumberService {
      unluckyNumbersRepository.save(unluckyNumbers);
     }
     public void deleteLastUnluckyNumbers(Long id){
+
         unluckyNumbersRepository.deleteById(id);
     }
 
