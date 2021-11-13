@@ -21,6 +21,10 @@ public class LottoApplication implements CommandLineRunner {
         LOGGER.info("Completed the run...");
     }
 
+    /**
+     * Ruf die Aplikation auf
+     * @param args wird nicht analysiert
+     */
     @Override
     public void run(String... args) throws Exception {
         try {

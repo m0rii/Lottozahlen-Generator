@@ -1,5 +1,8 @@
 package com.example.lotto.util;
 
+/**
+ *  Die Lotto Spiel Typen
+ */
 public enum LottoType {
     LOTTO6AUS49("Lotto6aus49"),
     EUROJACKPOT("Eurojackpot");

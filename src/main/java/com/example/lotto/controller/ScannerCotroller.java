@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * ScannerCotroller dient und verwaltet alle Kommunikation mit dem Benuzer per Konsolenbefehl
+ */
 @Component
 public class ScannerCotroller {
 
@@ -28,7 +31,9 @@ public class ScannerCotroller {
     private static String input;
     private static Game game;
 
-
+    /**
+     * startGame start das Spiel und verwaltet das Spiel Verfahren.
+     */
     public void startGame() {
         GameFactory gameFactory = new GameFactory();
         game = gameFactory.getGame(detectGame());
@@ -41,6 +46,12 @@ public class ScannerCotroller {
     }
 
 
+    /**
+     * getUnluckyNumbers versucht die letzte Unglückzahlen zu finden, wenn die vorhanden sind.
+     * Der Benutzer kann die vorhandene Unglückzahlen bearbeiten oder löschen - selectOption(lastUnlucky).
+     * Wenn Unglückzahlen nicht vorhanden sind, der Bnutzer die eingeben kann- addNumbers()
+     * @return ein Integer List von Unglückzahlen oder ein leere List
+     */
     private List<Integer> getUnluckyNumbers() {
 
         UnluckyNumbers lastUnlucky = service.getLastUnluckyNumbers();
@@ -75,6 +86,9 @@ public class ScannerCotroller {
 
     }
 
+    /**
+     * selectOption fragt der Benutzer nach die Verwaltung von Unglückzahlen und ruft die relevante Methode an.
+     */
     private void selectOption(UnluckyNumbers lastUnlucky) {
         String numbers = lastUnlucky.getUnluckyNumbers();
         int num = 0;
@@ -115,6 +129,12 @@ public class ScannerCotroller {
 
     }
 
+    /**
+     * addNumbers nimmt bis zu 6 Unglückzahlen vom Benutzer und speichert in Unlucky Tabelle.
+     * Die Abfrage wird entweder mit der Eingabe die 6 Zahlen oder "ende" beendet.
+     * Die Zahlen sollen in der vorher difinierte RangeTippZahlen und keine doppelten sein
+     * @return ein Integer List von Unglückzahlen oder ein leere List
+     */
     private List<Integer> addNumbers() {
         List<Integer> unluckyList = new ArrayList<>();
         int unlucky;
@@ -145,11 +165,17 @@ public class ScannerCotroller {
         return unluckyList;
     }
 
+    /**
+     * delete löscht die Unglückzahlen von der Tabelle
+     */
     private void delete(Long id) {
         service.deleteLastUnluckyNumbers(id);
         System.out.println(" Deine Unglückszahlen wird gelöcht");
     }
 
+    /**
+     * update aktuallisiert die Unglückzahlen in der Tabelle
+     */
     private void update(UnluckyNumbers unluckyNumbers ) {
         List<Integer> integerlist = addNumbers();
         String res = integerlist.stream() .map(String::valueOf) .collect(Collectors.joining(","));
@@ -157,11 +183,20 @@ public class ScannerCotroller {
         service.updateUnluckyNumbers(unluckyNumbers);
     }
 
+    /**
+     * validate prüfft, ob die eingegebene Zahl im Bereich der Tippzahlen ist
+     * @param input die eingegebene Zahl
+     * @param game die Game OBJ
+     * @return true,false
+     */
     private static Boolean validate(int input, Game game) {
         return input <= game.getRangeTippZahlen() && input > 0;
     }
 
-
+    /**
+     * detectGame, Nach Eingabe des Benutzers liefert ein Lotto Type zurück.
+     * @return ein LottoType
+     */
     protected  LottoType detectGame() {
         boolean flag = true;
         System.out.print("Bitte wahlen Sie das Lottospiel:\n 1-" + LottoType.LOTTO6AUS49 + "\n 2-" + LottoType.EUROJACKPOT + "\n");
