@@ -26,7 +26,7 @@ public class LottoApplication implements CommandLineRunner {
         try {
             cotroller.startGame();
         }catch (Exception ex){
-            LOGGER.error("Error : {}", ex.getMessage());
+            LOGGER.error("Error in run : {}", ex.getMessage());
         }
 
     }
