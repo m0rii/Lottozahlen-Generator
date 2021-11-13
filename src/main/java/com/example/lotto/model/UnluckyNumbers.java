@@ -5,6 +5,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * UnluckyNumbers repräsentiert die Sqlite Tabele
+ */
 @Entity(name = "unlucky")
 public class UnluckyNumbers {
     @Id

@@ -10,12 +10,23 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Utilities dient als Helper Klasse
+ * @author  Morteza Nabhan
+ */
 public class Utilities {
     private static final Logger logger = LoggerFactory.getLogger(Utilities.class.getName());
     private static final Scanner scanner = new Scanner(System.in);
-   public static List<Integer> stringToIntList(String s){
+
+    /**
+     * konventiert ein String zu einem List von Integer
+     * @param input eine String von mit Komma geterenden zahlen "5,12,33,45"
+     * @return eine List von Integer
+     * @exception NumberFormatException wenn String zu Integer nicht konventiert kann
+     */
+   public static List<Integer> stringToIntList(String input){
        try {
-           return Stream.of(s.split(","))
+           return Stream.of(input.split(","))
                    .map(Integer::parseInt)
                    .collect(Collectors.toList());
        }catch (NumberFormatException e){
@@ -26,38 +37,14 @@ public class Utilities {
 
    }
 
+    /**
+     * konventiert ein List von Integer zu einem mit Kommagetrennten String
+     * @param list ein List von Integer
+     * @return ein String
+     */
     public static String listIntToString(List<Integer> list){
         return Arrays.toString(list.toArray());
     }
-
-  /*  public void inputInt(List<Integer> expecp, int filter, int repeat){
-       int tmp=-1;
-       String input;
-
-       List<Integer> inputList;
-          do {
-            try {
-                input = scanner.nextLine();
-                tmp = Integer.parseInt(input); // Cast the number, if it does not succeed catch the exception.
-                if ((!inputList.contains(unlucky))) {
-                    inputList.add(unlucky);
-                } else {
-                    System.out.println("your number ist out of range or dublicate, choose number between 1 to  " + game.getRangeTippZahlen());
-                }
-
-            } catch (NumberFormatException e) {
-                if (!input.equalsIgnoreCase("end")) { // Wrong input
-                    System.out.println("Wrong input, input another number or end");
-                }
-            }
-        } while (!input.equalsIgnoreCase("end") && unluckyList.size() < 6);
-
-
-    }
-    private static int validate(int filter) {
-        return 6;
-    }
-    */
 
 
 }
