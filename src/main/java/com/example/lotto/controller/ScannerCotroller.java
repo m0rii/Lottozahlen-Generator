@@ -58,8 +58,8 @@ public class ScannerCotroller {
                     input = scanner.nextLine();
                     if (input.toLowerCase(Locale.ROOT).equals("ja")) {
                         return addNumbers();
-                    } else throw new InputMismatchException();
-                } catch (InputMismatchException ex) {
+                    } else throw new IllegalArgumentException();
+                } catch (IllegalArgumentException ex) {
                     if (!input.equalsIgnoreCase("nein")) { // Wrong input
                         logger.warn("ungültiger Parameter {}" , ex.getMessage());
 
@@ -162,7 +162,7 @@ public class ScannerCotroller {
     }
 
 
-    protected static LottoType detectGame() {
+    protected  LottoType detectGame() {
         boolean flag = true;
         System.out.print("Bitte wahlen Sie das Lottospiel:\n 1-" + LottoType.LOTTO6AUS49 + "\n 2-" + LottoType.EUROJACKPOT + "\n");
         String spiel = scanner.nextLine();
