@@ -27,7 +27,7 @@ public class Utilities {
      */
     public static List<Integer> stringToIntList(String input) {
         try {
-            List<String> list = Arrays.asList(input.substring(0, input.length() - 1).split(","));
+            List<String> list = Arrays.asList(input.split(","));
             return list.stream().map(Integer::parseInt).collect(Collectors.toList());
         } catch (NumberFormatException e) {
             List<Integer> emptyList = new ArrayList<>();

@@ -29,6 +29,7 @@ public class ScannerController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static String input;
     private static Game game;
+    private String MSG="";
 
     /**
      * startGame start das Spiel und verwaltet das Spiel Verfahren.
@@ -37,7 +38,8 @@ public class ScannerController {
         GameFactory gameFactory = new GameFactory();
         game = gameFactory.getGame(detectGame());
         List<Integer> unluckyList = getUnluckyNumbers();
-        System.out.println("Die Unglückszahlen sind: " + Utilities.listIntToString(unluckyList));
+        MSG= unluckyList.isEmpty()? "Es wird keine Unglückzahlen berücksigtigt" : "Die Unglückszahlen sind: " + Utilities.listIntToString(unluckyList);
+        System.out.println(MSG);
         System.out.println("Generierte Tippreihe für das Spiel " + game.getGameName() + " sind: " + game.randomTipp(unluckyList));
         if (game.getSuperZahl() == 2) {
             System.out.println("Generierte Superzahlen für das Spiel " + game.getGameName() + " sind: " + game.randomSuperZahlTipp(unluckyList));
@@ -55,12 +57,11 @@ public class ScannerController {
      */
     private List<Integer> getUnluckyNumbers() {
         List<Integer> numbers = new ArrayList<>();
+        String numberAsString="";
         UnluckyNumbers lastUnlucky = service.getLastUnluckyNumbers();
 
         if (lastUnlucky != null) {
-            selectOption(lastUnlucky);
-            String s = lastUnlucky.getUnluckyNumbers();
-            return Utilities.stringToIntList(s);
+           return selectOption(lastUnlucky);
         } else {
             System.out.println("Sie haben keine Unglückszahlen ");
             System.out.println("möchten sie die Unglückszahlen feslegen? Ja / Nein");
@@ -94,29 +95,30 @@ public class ScannerController {
     /**
      * selectOption fragt der Benutzer nach die Verwaltung von Unglückzahlen und ruft die relevante Methode an.
      */
-    private void selectOption(UnluckyNumbers lastUnlucky) {
+    private List<Integer> selectOption(UnluckyNumbers lastUnlucky) {
         String numbers = lastUnlucky.getUnluckyNumbers();
+        List<Integer> unluckyNumbers=new ArrayList<>();
         int num = 0;
         System.out.println("Sie haben am " + lastUnlucky.getCreateDate() + " diese Ungückgligzahlen: " + numbers + " angegeben.\n");
         System.out.println("Bitte geben Sie eine Nummer ein für:\n");
         System.out.println("1- Die Ungückgligzahlen bearbeiten\n");
         System.out.println("2- Die Ungückgligzahlen löschen\n");
-        System.out.println("3- neue Ungückgligzahlen eingeeb\n");
+        System.out.println("3- Neue Ungückgligzahlen eingeben\n");
         System.out.println("4- Tippreihe generieren\n");
 
         boolean flag = true;
         do {
             try {
                 num = scanner.nextInt();
-                if (num > 0 && num <= 3) {
+                if (num > 0 && num <= 4) {
                     flag = false;
                 } else {
-                    System.out.println("Bitte geben sie eine Nummer zwischen 1 und 3 an");
+                    System.out.println("Bitte geben sie eine Nummer zwischen 1 und 4 an");
                     scanner.nextLine();
                 }
 
             } catch (Exception e) {
-                System.out.println("Bitte geben sie eine Nummer zwischen 1 und 3 an");
+                System.out.println("Bitte geben sie eine Nummer zwischen 1 und 4 an");
                 scanner.nextLine();
             }
         } while (flag);
@@ -125,19 +127,21 @@ public class ScannerController {
 
         switch (num) {
             case 1:
-                update(lastUnlucky);
+                unluckyNumbers = update(lastUnlucky);
                 break;
             case 2:
                 delete(lastUnlucky.getId());
                 break;
             case 3:
-               add();
+                unluckyNumbers = add();
                 break;
+                case 4:
+                    unluckyNumbers = Utilities.stringToIntList(lastUnlucky.getUnluckyNumbers());
             default:
                 break;
 
         }
-
+return unluckyNumbers;
     }
 
     /**
@@ -179,23 +183,23 @@ public class ScannerController {
      */
     private void delete(Long id) {
         service.deleteLastUnluckyNumbers(id);
-        System.out.println(" Deine Unglückszahlen wird gelöcht");
+        System.out.println(" Deine Unglückszahlen wird gelöcht.");
     }
 
     /**
      * update aktuallisiert die Unglückzahlen in der Tabelle
      */
-    private void update(UnluckyNumbers unluckyNumbers) {
+    private List<Integer> update(UnluckyNumbers unluckyNumbers) {
         List<Integer> integerlist = addNumbers();
         if (!integerlist.isEmpty()) {
             String numAsString = Utilities.listIntToString(integerlist);
             unluckyNumbers.setUnluckyNumbers(numAsString);
             service.updateUnluckyNumbers(unluckyNumbers);
         }
-
+        return integerlist;
     }
 
-    private void add() {
+    private List<Integer> add() {
         UnluckyNumbers unluckyNumbers= new UnluckyNumbers();
         List<Integer> integerlist = addNumbers();
         if (!integerlist.isEmpty()) {
@@ -203,6 +207,7 @@ public class ScannerController {
             unluckyNumbers.setUnluckyNumbers(numAsString);
             service.addUnluckyNumber(unluckyNumbers);
         }
+        return integerlist;
     }
 
     /**
