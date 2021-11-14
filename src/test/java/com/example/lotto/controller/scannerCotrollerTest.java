@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ScannerCotrollerTest {
+class scannerCotrollerTest {
 
     private final InputStream systemIn = System.in;
     private final PrintStream systemOut = System.out;
@@ -55,7 +55,6 @@ class ScannerCotrollerTest {
     void detectGameTest() {
         String testString = "Eurojackpot"; //Lotto6aus49
         provideInput(testString);
-      //  ScannerCotroller.detectGame();
         Assertions.assertEquals(testString, LottoType.EUROJACKPOT.toString());//LottoType.LOTTO6AUS49.toString()
 
 
@@ -66,7 +65,7 @@ class ScannerCotrollerTest {
         Exception exception = assertThrows(NoSuchElementException.class, () -> {
             String testString = "bla bla";
             provideInput(testString);
-         //   ScannerCotroller.detectGame();
+         //   ScannerController.detectGame();
         });
         String expectedMessage = "wrong input";
         String actualMessage = exception.getMessage(); // No line found
