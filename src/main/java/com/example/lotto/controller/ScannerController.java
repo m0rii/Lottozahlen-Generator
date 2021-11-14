@@ -101,7 +101,8 @@ public class ScannerController {
         System.out.println("Bitte geben Sie eine Nummer ein für:\n");
         System.out.println("1- Die Ungückgligzahlen bearbeiten\n");
         System.out.println("2- Die Ungückgligzahlen löschen\n");
-        System.out.println("3- Tippreihe generieren\n");
+        System.out.println("3- neue Ungückgligzahlen eingeeb\n");
+        System.out.println("4- Tippreihe generieren\n");
 
         boolean flag = true;
         do {
@@ -128,6 +129,9 @@ public class ScannerController {
                 break;
             case 2:
                 delete(lastUnlucky.getId());
+                break;
+            case 3:
+               add();
                 break;
             default:
                 break;
@@ -184,11 +188,21 @@ public class ScannerController {
     private void update(UnluckyNumbers unluckyNumbers) {
         List<Integer> integerlist = addNumbers();
         if (!integerlist.isEmpty()) {
-            String res = Utilities.listIntToString(integerlist);
-            unluckyNumbers.setUnluckyNumbers(res);
+            String numAsString = Utilities.listIntToString(integerlist);
+            unluckyNumbers.setUnluckyNumbers(numAsString);
             service.updateUnluckyNumbers(unluckyNumbers);
         }
 
+    }
+
+    private void add() {
+        UnluckyNumbers unluckyNumbers= new UnluckyNumbers();
+        List<Integer> integerlist = addNumbers();
+        if (!integerlist.isEmpty()) {
+            String numAsString = Utilities.listIntToString(integerlist);
+            unluckyNumbers.setUnluckyNumbers(numAsString);
+            service.addUnluckyNumber(unluckyNumbers);
+        }
     }
 
     /**
