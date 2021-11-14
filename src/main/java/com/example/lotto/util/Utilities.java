@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Utilities dient als Helper Klasse
@@ -26,9 +25,8 @@ public class Utilities {
      */
    public static List<Integer> stringToIntList(String input){
        try {
-           return Stream.of(input.split(","))
-                   .map(Integer::parseInt)
-                   .collect(Collectors.toList());
+           List<String> list = Arrays.asList(input.substring(0, input.length() - 1).split(","));
+           return list.stream().map(Integer::parseInt).collect(Collectors.toList());
        }catch (NumberFormatException e){
            List<Integer> emptyList = new ArrayList<>();
            logger.info("parsing error : {} ",e.getMessage());
@@ -43,7 +41,7 @@ public class Utilities {
      * @return ein String
      */
     public static String listIntToString(List<Integer> list){
-        return Arrays.toString(list.toArray());
+        return list.stream() .map(String::valueOf) .collect(Collectors.joining(","));
     }
 
 

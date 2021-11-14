@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * ScannerCotroller dient und verwaltet alle Kommunikation mit dem Benuzer per Konsolenbefehl
@@ -38,6 +37,7 @@ public class ScannerCotroller {
         GameFactory gameFactory = new GameFactory();
         game = gameFactory.getGame(detectGame());
         List<Integer> unluckyList = getUnluckyNumbers();
+        System.out.println("Die Unglückszahlen sind: " + Utilities.listIntToString(unluckyList));
         System.out.println("Generierte Tippreihe für das Spiel " + game.getGameName()+ " sind: " + game.randomTipp(unluckyList) );
         if(game.getSuperZahl() == 2){
             System.out.println("Generierte Superzahlen für das Spiel " + game.getGameName()+ " sind: " + game.randomSuperZahlTipp(unluckyList));
@@ -53,8 +53,9 @@ public class ScannerCotroller {
      * @return ein Integer List von Unglückzahlen oder ein leere List
      */
     private List<Integer> getUnluckyNumbers() {
-
+        List<Integer> numbers=new ArrayList<>() ;
         UnluckyNumbers lastUnlucky = service.getLastUnluckyNumbers();
+
         if (lastUnlucky != null) {
             selectOption(lastUnlucky);
             String s = lastUnlucky.getUnluckyNumbers();
@@ -68,12 +69,15 @@ public class ScannerCotroller {
                 try {
                     input = scanner.nextLine();
                     if (input.toLowerCase(Locale.ROOT).equals("ja")) {
-                        return addNumbers();
+                        numbers= addNumbers();
+                        if(!numbers.isEmpty()){
+                            service.addUnluckyNumber(new UnluckyNumbers(Utilities.listIntToString(numbers)));
+                        }return numbers;
+
                     } else throw new IllegalArgumentException();
                 } catch (IllegalArgumentException ex) {
                     if (!input.equalsIgnoreCase("nein")) { // Wrong input
                         logger.warn("ungültiger Parameter {}" , ex.getMessage());
-
                         System.out.println("möchten sie die Unglückszahlen feslegen? Bitte geben Sie ja oder nein ");
                     }
                 }
@@ -81,7 +85,7 @@ public class ScannerCotroller {
 
 
 
-            return new ArrayList<>();
+            return numbers;
         }
 
     }
@@ -139,8 +143,9 @@ public class ScannerCotroller {
         List<Integer> unluckyList = new ArrayList<>();
         int unlucky;
         System.out.println("bitte geben sie 6 Unglückszahlen zwischen 1 und " + game.getRangeTippZahlen()  + " ODER" + " um Tippreihe zu bekommen, schreib bitte End" );
-
-        do {
+        String input="";
+        scanner.nextLine();
+        while (!input.equalsIgnoreCase("end") && unluckyList.size() < 6){
 
             try {
                 input = scanner.nextLine();
@@ -156,12 +161,10 @@ public class ScannerCotroller {
                     System.out.println("bitte geben Sie nur Nummer oder end");
                 }
             }
-        } while (!input.equalsIgnoreCase("end") && unluckyList.size() < 6);
-
-        System.out.println("Die Unglückszahlen sind" +Utilities.listIntToString(unluckyList));
-        scanner.close();
+        }
+       // scanner.close();
         Collections.sort(unluckyList);
-        service.addUnluckyNumber(new UnluckyNumbers(Utilities.listIntToString(unluckyList)));
+        //service.addUnluckyNumber(new UnluckyNumbers(Utilities.listIntToString(unluckyList)));
         return unluckyList;
     }
 
@@ -178,9 +181,12 @@ public class ScannerCotroller {
      */
     private void update(UnluckyNumbers unluckyNumbers ) {
         List<Integer> integerlist = addNumbers();
-        String res = integerlist.stream() .map(String::valueOf) .collect(Collectors.joining(","));
-        unluckyNumbers.setUnluckyNumbers(res);
-        service.updateUnluckyNumbers(unluckyNumbers);
+        if(!integerlist.isEmpty()){
+            String res= Utilities.listIntToString(integerlist);
+            unluckyNumbers.setUnluckyNumbers(res);
+            service.updateUnluckyNumbers(unluckyNumbers);
+        }
+
     }
 
     /**
