@@ -1,6 +1,6 @@
 package com.example.lotto;
 
-import com.example.lotto.controller.ScannerCotroller;
+import com.example.lotto.controller.ScannerController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LottoApplication implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(LottoApplication.class);
     @Autowired
-    private ScannerCotroller cotroller;
+    private ScannerController cotroller;
 
     public static void main(String[] args) {
         LOGGER.info("Starting to run...");
@@ -23,13 +23,14 @@ public class LottoApplication implements CommandLineRunner {
 
     /**
      * Ruf die Aplikation auf
+     *
      * @param args wird nicht analysiert
      */
     @Override
     public void run(String... args) throws Exception {
         try {
             cotroller.startGame();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             LOGGER.error("Error in run : {}", ex.getMessage());
         }
 

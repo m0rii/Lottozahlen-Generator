@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 /**
- * ScannerCotroller dient und verwaltet alle Kommunikation mit dem Benuzer per Konsolenbefehl
+ * ScannerController dient und verwaltet alle Kommunikation mit dem Benuzer per Konsolenbefehl
  */
 @Component
-public class ScannerCotroller {
+public class ScannerController {
 
     @Autowired
     private UnluckyNumberService service;
@@ -38,9 +38,9 @@ public class ScannerCotroller {
         game = gameFactory.getGame(detectGame());
         List<Integer> unluckyList = getUnluckyNumbers();
         System.out.println("Die Unglückszahlen sind: " + Utilities.listIntToString(unluckyList));
-        System.out.println("Generierte Tippreihe für das Spiel " + game.getGameName()+ " sind: " + game.randomTipp(unluckyList) );
-        if(game.getSuperZahl() == 2){
-            System.out.println("Generierte Superzahlen für das Spiel " + game.getGameName()+ " sind: " + game.randomSuperZahlTipp(unluckyList));
+        System.out.println("Generierte Tippreihe für das Spiel " + game.getGameName() + " sind: " + game.randomTipp(unluckyList));
+        if (game.getSuperZahl() == 2) {
+            System.out.println("Generierte Superzahlen für das Spiel " + game.getGameName() + " sind: " + game.randomSuperZahlTipp(unluckyList));
         }
 
     }
@@ -50,10 +50,11 @@ public class ScannerCotroller {
      * getUnluckyNumbers versucht die letzte Unglückzahlen zu finden, wenn die vorhanden sind.
      * Der Benutzer kann die vorhandene Unglückzahlen bearbeiten oder löschen - selectOption(lastUnlucky).
      * Wenn Unglückzahlen nicht vorhanden sind, der Bnutzer die eingeben kann- addNumbers()
+     *
      * @return ein Integer List von Unglückzahlen oder ein leere List
      */
     private List<Integer> getUnluckyNumbers() {
-        List<Integer> numbers=new ArrayList<>() ;
+        List<Integer> numbers = new ArrayList<>();
         UnluckyNumbers lastUnlucky = service.getLastUnluckyNumbers();
 
         if (lastUnlucky != null) {
@@ -69,20 +70,20 @@ public class ScannerCotroller {
                 try {
                     input = scanner.nextLine();
                     if (input.toLowerCase(Locale.ROOT).equals("ja")) {
-                        numbers= addNumbers();
-                        if(!numbers.isEmpty()){
+                        numbers = addNumbers();
+                        if (!numbers.isEmpty()) {
                             service.addUnluckyNumber(new UnluckyNumbers(Utilities.listIntToString(numbers)));
-                        }return numbers;
+                        }
+                        return numbers;
 
                     } else throw new IllegalArgumentException();
                 } catch (IllegalArgumentException ex) {
                     if (!input.equalsIgnoreCase("nein")) { // Wrong input
-                        logger.warn("ungültiger Parameter {}" , ex.getMessage());
+                        logger.warn("ungültiger Parameter {}", ex.getMessage());
                         System.out.println("möchten sie die Unglückszahlen feslegen? Bitte geben Sie ja oder nein ");
                     }
                 }
             } while (!input.equalsIgnoreCase("nein"));
-
 
 
             return numbers;
@@ -102,14 +103,13 @@ public class ScannerCotroller {
         System.out.println("2- Die Ungückgligzahlen löschen\n");
         System.out.println("3- Tippreihe generieren\n");
 
-        boolean flag=true;
+        boolean flag = true;
         do {
             try {
                 num = scanner.nextInt();
-                if(num>0 && num<=3){
-                    flag=false;
-                }
-                else{
+                if (num > 0 && num <= 3) {
+                    flag = false;
+                } else {
                     System.out.println("Bitte geben sie eine Nummer zwischen 1 und 3 an");
                     scanner.nextLine();
                 }
@@ -122,12 +122,15 @@ public class ScannerCotroller {
         System.out.println("---------------------------------");
 
 
-        switch (num){
-            case 1 : update(lastUnlucky);
-            break;
-            case 2: delete(lastUnlucky.getId());
-            break;
-            default: break;
+        switch (num) {
+            case 1:
+                update(lastUnlucky);
+                break;
+            case 2:
+                delete(lastUnlucky.getId());
+                break;
+            default:
+                break;
 
         }
 
@@ -137,15 +140,16 @@ public class ScannerCotroller {
      * addNumbers nimmt bis zu 6 Unglückzahlen vom Benutzer und speichert in Unlucky Tabelle.
      * Die Abfrage wird entweder mit der Eingabe die 6 Zahlen oder "ende" beendet.
      * Die Zahlen sollen in der vorher difinierte RangeTippZahlen und keine doppelten sein
+     *
      * @return ein Integer List von Unglückzahlen oder ein leere List
      */
     private List<Integer> addNumbers() {
         List<Integer> unluckyList = new ArrayList<>();
         int unlucky;
-        System.out.println("bitte geben sie 6 Unglückszahlen zwischen 1 und " + game.getRangeTippZahlen()  + " ODER" + " um Tippreihe zu bekommen, schreib bitte End" );
-        String input="";
+        System.out.println("bitte geben sie 6 Unglückszahlen zwischen 1 und " + game.getRangeTippZahlen() + " ODER" + " um Tippreihe zu bekommen, schreib bitte End");
+        String input = "";
         scanner.nextLine();
-        while (!input.equalsIgnoreCase("end") && unluckyList.size() < 6){
+        while (!input.equalsIgnoreCase("end") && unluckyList.size() < 6) {
 
             try {
                 input = scanner.nextLine();
@@ -162,9 +166,7 @@ public class ScannerCotroller {
                 }
             }
         }
-       // scanner.close();
         Collections.sort(unluckyList);
-        //service.addUnluckyNumber(new UnluckyNumbers(Utilities.listIntToString(unluckyList)));
         return unluckyList;
     }
 
@@ -179,10 +181,10 @@ public class ScannerCotroller {
     /**
      * update aktuallisiert die Unglückzahlen in der Tabelle
      */
-    private void update(UnluckyNumbers unluckyNumbers ) {
+    private void update(UnluckyNumbers unluckyNumbers) {
         List<Integer> integerlist = addNumbers();
-        if(!integerlist.isEmpty()){
-            String res= Utilities.listIntToString(integerlist);
+        if (!integerlist.isEmpty()) {
+            String res = Utilities.listIntToString(integerlist);
             unluckyNumbers.setUnluckyNumbers(res);
             service.updateUnluckyNumbers(unluckyNumbers);
         }
@@ -191,9 +193,10 @@ public class ScannerCotroller {
 
     /**
      * validate prüfft, ob die eingegebene Zahl im Bereich der Tippzahlen ist
+     *
      * @param input die eingegebene Zahl
-     * @param game die Game OBJ
-     * @return true,false
+     * @param game  die Game OBJ
+     * @return true, false
      */
     private static Boolean validate(int input, Game game) {
         return input <= game.getRangeTippZahlen() && input > 0;
@@ -201,9 +204,10 @@ public class ScannerCotroller {
 
     /**
      * detectGame, Nach Eingabe des Benutzers liefert ein Lotto Type zurück.
+     *
      * @return ein LottoType
      */
-    protected  LottoType detectGame() {
+    protected LottoType detectGame() {
         boolean flag = true;
         System.out.print("Bitte wahlen Sie das Lottospiel:\n 1-" + LottoType.LOTTO6AUS49 + "\n 2-" + LottoType.EUROJACKPOT + "\n");
         String spiel = scanner.nextLine();
@@ -213,19 +217,19 @@ public class ScannerCotroller {
                     System.out.println("Herzlich willkommen bei " + LottoType.LOTTO6AUS49);
                     flag = false;
                     return LottoType.LOTTO6AUS49;
-                }else if(LottoType.EUROJACKPOT.equalValue(spiel) || LottoType.LOTTO6AUS49.equalValue(spiel)) {
+                } else if (LottoType.EUROJACKPOT.equalValue(spiel) || LottoType.LOTTO6AUS49.equalValue(spiel)) {
                     System.out.println("Herzlich willkommen bei " + LottoType.valueOf(spiel.toUpperCase(Locale.ROOT)));
                     flag = false;
                     return LottoType.valueOf(spiel.toUpperCase(Locale.ROOT));
 
-                }else {
+                } else {
                     throw new IllegalArgumentException();
                 }
 
             } catch (IllegalArgumentException e) {
                 System.out.println("bitte geben sie gultige Parameter\n" +
-                        "mögliche Parameter sind: " + LottoType.LOTTO6AUS49 + " "+LottoType.EUROJACKPOT);
-              spiel=  scanner.nextLine();
+                        "mögliche Parameter sind: " + LottoType.LOTTO6AUS49 + " " + LottoType.EUROJACKPOT);
+                spiel = scanner.nextLine();
             }
         } while (flag);
 

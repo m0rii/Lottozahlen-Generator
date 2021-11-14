@@ -14,43 +14,46 @@ import java.util.NoSuchElementException;
  * UnluckyNumberService dient zum Verwalten UnluckyNumberRepository
  */
 @Service
-public class UnluckyNumberService {
+public class UnluckyNumberService  {
 
     @Autowired
     private UnluckyNumbersRepository unluckyNumbersRepository;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public void addUnluckyNumber(UnluckyNumbers unluckyNumbers){
+    public void addUnluckyNumber(UnluckyNumbers unluckyNumbers) {
         logger.info("insert into database");
         unluckyNumbersRepository.save(unluckyNumbers);
     }
 
-    public List<UnluckyNumbers> getAllUnluckyNumbers(){
+    public List<UnluckyNumbers> getAllUnluckyNumbers() {
         logger.info("get all unlucky numbers");
         return unluckyNumbersRepository.findAll();
     }
 
-    public UnluckyNumbers getLastUnluckyNumbers(){
+    public UnluckyNumbers getLastUnluckyNumbers() {
         UnluckyNumbers lastUnluckyNumbers = null;
         try {
-            lastUnluckyNumbers= unluckyNumbersRepository.findTopByOrderByIdDesc();
+            lastUnluckyNumbers = unluckyNumbersRepository.findTopByOrderByIdDesc();
             logger.info("read last unlucky number from database");
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             logger.error("could not read last unluckynumber from database " + e);
 
         }
         return lastUnluckyNumbers;
     }
-    public void deleteAllUnluckyNumbers(){
+
+    public void deleteAllUnluckyNumbers() {
         logger.info("delete all unlucky numbers");
-            unluckyNumbersRepository.deleteAll();
+        unluckyNumbersRepository.deleteAll();
 
     }
-    public void updateUnluckyNumbers(UnluckyNumbers unluckyNumbers){
-        logger.info("update {} in database",unluckyNumbers);
-     unluckyNumbersRepository.save(unluckyNumbers);
+
+    public void updateUnluckyNumbers(UnluckyNumbers unluckyNumbers) {
+        logger.info("update {} in database", unluckyNumbers);
+        unluckyNumbersRepository.save(unluckyNumbers);
     }
-    public void deleteLastUnluckyNumbers(Long id){
+
+    public void deleteLastUnluckyNumbers(Long id) {
         logger.info("delete last unlucky number for id = {} in database", id);
         unluckyNumbersRepository.deleteById(id);
     }

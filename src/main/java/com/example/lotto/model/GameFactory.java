@@ -4,9 +4,9 @@ import com.example.lotto.util.LottoType;
 
 public class GameFactory {
 
-    public Game getGame(LottoType lottoType){
+    public Game getGame(LottoType lottoType) {
         Game game = new Game();
-        if(lottoType == null){
+        if (lottoType == null) {
             return null;
         }
         switch (lottoType) {

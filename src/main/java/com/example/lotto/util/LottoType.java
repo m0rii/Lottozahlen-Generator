@@ -1,7 +1,7 @@
 package com.example.lotto.util;
 
 /**
- *  Die Lotto Spiel Typen
+ * Die Lotto Spiel Typen
  */
 public enum LottoType {
     LOTTO6AUS49("Lotto6aus49"),
@@ -18,7 +18,7 @@ public enum LottoType {
         return name;
     }
 
-    public boolean equalValue(String name){
+    public boolean equalValue(String name) {
         return this.name.equals(name);
     }
 }
