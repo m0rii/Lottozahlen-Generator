@@ -21,7 +21,7 @@ public class UnluckyNumberService  {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public void addUnluckyNumber(UnluckyNumbers unluckyNumbers) {
-        logger.info("insert into database");
+        logger.info("insert data into database -> {}" , unluckyNumbers);
         unluckyNumbersRepository.save(unluckyNumbers);
     }
 
