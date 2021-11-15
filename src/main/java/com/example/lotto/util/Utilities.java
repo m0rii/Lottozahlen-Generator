@@ -31,7 +31,7 @@ public class Utilities {
             return list.stream().map(Integer::parseInt).collect(Collectors.toList());
         } catch (NumberFormatException e) {
             List<Integer> emptyList = new ArrayList<>();
-            logger.info("parsing error : {} ", e.getMessage());
+            logger.error("parsing error : {} ", e.getMessage());
             return emptyList;
         }
 
