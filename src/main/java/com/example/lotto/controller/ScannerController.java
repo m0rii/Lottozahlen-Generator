@@ -80,7 +80,7 @@ public class ScannerController {
                     } else throw new IllegalArgumentException();
                 } catch (IllegalArgumentException ex) {
                     if (!input.equalsIgnoreCase("nein")) { // Wrong input
-                        logger.warn("ungültiger Parameter {}", ex.getMessage());
+                        logger.error("ungültiger Parameter {}", ex.getMessage());
                         System.out.println("möchten sie die Unglückszahlen feslegen? Bitte geben Sie ja oder nein ");
                     }
                 }

@@ -1,5 +1,6 @@
 package com.example.lotto.model;
 
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Date;
  * UnluckyNumbers repräsentiert die Sqlite Tabele
  */
 @Entity(name = "unlucky")
+@EqualsAndHashCode
 public class UnluckyNumbers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +55,7 @@ public class UnluckyNumbers {
         this.createDate = createDate;
     }
 
+
     @Override
     public String toString() {
         return "UnluckyNumbers{" +
@@ -61,4 +64,6 @@ public class UnluckyNumbers {
                 ", createDate='" + createDate + '\'' +
                 '}';
     }
+
+
 }
