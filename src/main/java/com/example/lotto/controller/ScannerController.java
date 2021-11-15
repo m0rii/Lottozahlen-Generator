@@ -226,7 +226,7 @@ return unluckyNumbers;
      *
      * @return ein LottoType
      */
-    protected LottoType detectGame() {
+    private LottoType detectGame() {
         boolean flag = true;
         System.out.print("Bitte wahlen Sie das Lottospiel:\n 1-" + LottoType.LOTTO6AUS49 + "\n 2-" + LottoType.EUROJACKPOT + "\n");
         String spiel = scanner.nextLine();
